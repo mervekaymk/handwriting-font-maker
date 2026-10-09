@@ -7,7 +7,11 @@ Everything runs in your browser. Nothing is uploaded, and there are no accounts.
 
 **Try it:** https://mervekaymk.github.io/handwriting-font-maker/
 
-![Screenshot: glyph grid, drawing canvas with guide lines and a faint reference letter, and the live preview](docs/screenshot.jpg)
+<img src="docs/preview-example.png" width="411" alt="Live preview of a finished handwriting font: 'The quick brown fox jumps over the lazy dog · Çağrı ışığı söndü 12345!?' written in the drawn font">
+
+*A font I drew with it, shown in the live preview.*
+
+![Screenshot of the app: glyph grid, drawing canvas with guide lines and a faint reference letter, and the live preview](docs/screenshot.jpg)
 
 ## Features
 

@@ -11,6 +11,7 @@ import { BRUSH_SIZES } from './stroke.js';
 import { stateToProject, readProject, safeFileName } from './project.js';
 import { saveProject, loadProject } from './storage.js';
 import { showDialog } from './dialog.js';
+import { FontPreview } from './preview.js';
 
 // Short helper for document.getElementById.
 function $(id) {
@@ -18,6 +19,7 @@ function $(id) {
 }
 
 const glyphCanvas = new GlyphCanvas($('draw-canvas'));
+const fontPreview = new FontPreview($('preview-text'), $('preview-hint'));
 
 // One <button> per glyph, keyed by glyph id, so we can update them later.
 const cellsById = {};
@@ -357,6 +359,7 @@ setupProjectControls();
 onChange(render);
 onChange(renderFontSettings);
 onChange(scheduleSave);
+onChange(() => fontPreview.scheduleUpdate(state));
 render();
 renderFontSettings();
 restoreSavedProject();

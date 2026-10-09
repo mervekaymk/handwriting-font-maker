@@ -458,11 +458,11 @@ textarea {
 /* Ruled notebook paper for the preview text. */
 textarea.paper {
   margin-top: 0.3rem;
-  font-size: 24px;
-  line-height: 36px;
+  font-size: 30px;
+  line-height: 44px;
   resize: vertical;
-  background-image: linear-gradient(transparent 35px, var(--rule) 35px);
-  background-size: 100% 36px;
+  background-image: linear-gradient(transparent 43px, var(--rule) 43px);
+  background-size: 100% 44px;
   background-attachment: local;
 }
 

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>handwriting font maker - TYPEWRITER_OS v1.0</title>
+<!-- Google Fonts: Space Mono & Space Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-fixed": "#ffd9dc",
+            "on-tertiary-container": "#583337",
+            "background": "#fbf9f6",
+            "on-primary-container": "#5e3036",
+            "inverse-surface": "#30312f",
+            "surface-container": "#efeeeb",
+            "error": "#ba1a1a",
+            "on-primary-fixed-variant": "#69383f",
+            "surface-container-high": "#eae8e5",
+            "surface-container-highest": "#e4e2df",
+            "on-secondary-fixed": "#071c36",
+            "on-error": "#ffffff",
+            "primary-container": "#d8989f",
+            "inverse-primary": "#f9b5bc",
+            "surface-bright": "#fbf9f6",
+            "secondary-fixed": "#d5e3ff",
+            "on-tertiary": "#ffffff",
+            "surface-tint": "#844f56",
+            "on-secondary-fixed-variant": "#364764",
+            "inverse-on-surface": "#f2f0ed",
+            "secondary-fixed-dim": "#b5c7e9",
+            "secondary": "#4d5f7c",
+            "on-surface-variant": "#514344",
+            "surface-container-low": "#f5f3f0",
+            "on-primary": "#ffffff",
+            "on-background": "#1b1c1a",
+            "surface": "#fbf9f6",
+            "surface-variant": "#e4e2df",
+            "on-surface": "#1b1c1a",
+            "tertiary-fixed": "#ffdadc",
+            "on-tertiary-fixed-variant": "#623c40",
+            "on-tertiary-fixed": "#301216",
+            "on-secondary-container": "#4e607d",
+            "outline": "#837374",
+            "surface-container-lowest": "#ffffff",
+            "error-container": "#ffdad6",
+            "primary-fixed-dim": "#f9b5bc",
+            "tertiary-container": "#ce9ca0",
+            "primary": "#844f56",
+            "secondary-container": "#c9dbfd",
+            "tertiary": "#7c5357",
+            "tertiary-fixed-dim": "#eeb9bd",
+            "on-primary-fixed": "#350e15",
+            "outline-variant": "#d6c2c3",
+            "on-error-container": "#93000a",
+            "on-secondary": "#ffffff",
+            "surface-dim": "#dbdad7"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-desktop": "2.5rem",
+            "gutter-desktop": "1.5rem",
+            "gutter": "1rem",
+            "space-xl": "2rem",
+            "space-md": "0.75rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.25rem",
+            "space-xs": "0.25rem",
+            "margin-tablet": "1.5rem",
+            "margin": "1rem"
+          },
+          "fontFamily": {
+            "title-sm": ["Space Mono"],
+            "display-lg": ["Space Grotesk"],
+            "headline-md": ["Space Grotesk"],
+            "headline-sm": ["Space Grotesk"],
+            "body-lg": ["Space Mono"],
+            "body-md": ["Space Mono"],
+            "label-md": ["Space Mono"],
+            "title-md": ["Space Mono"],
+            "display-lg-mobile": ["Space Grotesk"],
+            "headline-lg": ["Space Grotesk"],
+            "body-sm": ["Space Mono"],
+            "label-sm": ["Space Mono"],
+            "handwriting": ["Caveat", "cursive"]
+          },
+          "fontSize": {
+            "title-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+            "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "title-md": ["16px", { "lineHeight": "22px", "letterSpacing": "0.02em", "fontWeight": "700" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    /* Pinstriped Retro Title Bar Texture */
+    .pinstripe-bar {
+      background: repeating-linear-gradient(
+        to bottom,
+        #fbf9f6,
+        #fbf9f6 2px,
+        #d8d4cf 2px,
+        #d8d4cf 4px
+      );
+    }
+    
+    /* Cross-stitch / dotted divider */
+    .cross-stitch-border {
+      background-image: radial-gradient(#1b1c1a 1px, transparent 1px);
+      background-size: 8px 8px;
+    }
+
+    /* Ruled paper lines for preview & notepad */
+    .ruled-paper {
+      background-color: #ffffff;
+      background-image: linear-gradient(#f0ebe1 1px, transparent 1px);
+      background-size: 100% 28px;
+    }
+
+    /* Retro blink animation for square caret */
+    @keyframes retro-blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .retro-caret {
+      animation: retro-blink 1s infinite;
+    }
+
+    /* Custom range styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #eae8e5;
+      border: 1px solid #1b1c1a;
+      height: 10px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 24px;
+      background: #d8989f;
+      border: 1px solid #1b1c1a;
+      box-shadow: 1px 1px 0px #1b1c1a;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col selection:bg-primary-container selection:text-on-surface antialiased">
+<!-- ================= TOP APP BAR (from Shared Components JSON: TopNavBar) ================= -->
+<header class="bg-surface-container border-b border-on-surface shadow-[0px_2px_0px_#1b1c1a] w-full flex items-center justify-between px-space-md md:px-margin-desktop py-space-xs sticky top-0 z-50">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs select-none">
+<span class="inline-block w-3.5 h-3.5 bg-primary-container border border-on-surface shadow-[1px_1px_0px_#1b1c1a]"></span>
+<span class="text-title-md font-title-md tracking-wider uppercase text-on-surface">TYPEWRITER_OS v1.0</span>
+</div>
+<div class="h-4 w-[1px] bg-outline hidden md:block"></div>
+<!-- Desktop Retro Menu Items -->
+<nav class="hidden md:flex items-center gap-space-xs text-label-md font-label-md">
+<button class="text-on-surface hover:bg-surface-container-high px-space-sm py-space-xs border border-transparent active:translate-x-[2px] active:translate-y-[2px] transition-transform">GLYPHS.EXE</button>
+<button class="bg-primary-container text-on-primary-container border border-on-surface px-space-sm py-space-xs shadow-[1px_1px_0px_#1b1c1a] active:translate-x-[2px] active:translate-y-[2px] transition-transform">CANVAS.EXE</button>
+<button class="text-on-surface hover:bg-surface-container-high px-space-sm py-space-xs border border-transparent active:translate-x-[2px] active:translate-y-[2px] transition-transform">PREVIEW.TXT</button>
+<button class="text-on-surface hover:bg-surface-container-high px-space-sm py-space-xs border border-transparent active:translate-x-[2px] active:translate-y-[2px] transition-transform">EXPORT.EXE</button>
+<button class="text-on-surface hover:bg-surface-container-high px-space-sm py-space-xs border border-transparent active:translate-x-[2px] active:translate-y-[2px] transition-transform">HELP.TXT</button>
+</nav>
+</div>
+<!-- Actions & Status Badges -->
+<div class="flex items-center gap-space-sm">
+<div class="hidden lg:flex items-center gap-space-xs bg-surface border border-on-surface px-space-sm py-1 shadow-[1px_1px_0px_#1b1c1a]">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+<span class="text-label-sm font-label-sm">34 / 98 drawn (35% ready)</span>
+</div>
+<button class="min-h-[44px] min-w-[44px] flex items-center justify-center bg-surface-container-low border border-on-surface shadow-[2px_2px_0px_#1b1c1a] hover:bg-primary-fixed active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all px-space-sm gap-1" title="Save Project">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span class="text-label-md font-label-md hidden sm:inline">SAVE</span>
+</button>
+<button class="min-h-[44px] px-space-md flex items-center justify-center bg-primary-container text-on-primary-container border border-on-surface shadow-[2px_2px_0px_#1b1c1a] hover:bg-primary-fixed-dim active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all gap-1.5 font-title-sm text-title-sm" title="Quick Export">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>EXPORT.EXE</span>
+</button>
+</div>
+</header>
+<!-- ================= SUB-HEADER / OS DESKTOP TITLE BAR ================= -->
+<section class="bg-surface-container-low border-b border-on-surface px-space-md md:px-margin-desktop py-space-sm flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md">
+<!-- Title requested: "handwriting font maker" in bold tight lowercase sans-serif -->
+<div class="flex items-baseline gap-space-sm">
+<h1 class="text-headline-lg font-headline-lg tracking-tighter font-bold text-on-surface lowercase">
+          handwriting font maker
+        </h1>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-label-sm font-label-sm px-1.5 py-0.5 border border-on-surface">v1.0.8b</span>
+</div>
+<p class="hidden xl:inline text-body-sm font-body-sm text-on-surface-variant">
+        turn your pen &amp; tablet handwriting into authentic installable TTF / OTF font files
+      </p>
+</div>
+<!-- Retro System Action Buttons -->
+<div class="flex items-center flex-wrap gap-space-xs text-label-md font-label-md">
+<button class="min-h-[44px] px-space-sm py-1 bg-surface border border-on-surface shadow-[2px_2px_0px_#1b1c1a] hover:bg-surface-container-high active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">file_upload</span>
+<span>Import project</span>
+</button>
+<button class="min-h-[44px] px-space-sm py-1 bg-surface border border-on-surface shadow-[2px_2px_0px_#1b1c1a] hover:bg-surface-container-high active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">data_object</span>
+<span>Export project (.json)</span>
+</button>
+<button class="min-h-[44px] px-space-sm py-1 bg-surface border border-on-surface text-error shadow-[2px_2px_0px_#1b1c1a] hover:bg-error-container active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-error">warning</span>
+<span>Reset all</span>
+</button>
+</div>
+</section>
+<!-- ================= MAIN DESKTOP OS WORKSPACE (12-Col Grid) ================= -->
+<main class="flex-1 w-full max-w-[1720px] mx-auto p-space-sm md:p-gutter-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-start">
+<!-- ================= 1. LEFT PANEL: "GLYPHS.EXE" (3 COLS) ================= -->
+<aside class="lg:col-span-3 flex flex-col bg-surface border border-on-surface shadow-[3px_3px_0px_#1b1c1a]">
+<!-- OS Window Title Bar -->
+<div class="pinstripe-bar h-8 px-2 flex items-center justify-between border-b border-on-surface select-none">
+<div class="flex items-center gap-1">
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">✕</div>
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">_</div>
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">□</div>
+</div>
+<div class="bg-surface px-2 py-0.5 border border-on-surface text-title-sm font-title-sm text-on-surface">
+          GLYPHS.EXE
+        </div>
+<div class="text-[10px] text-on-surface-variant font-label-sm">ASCII 32-126</div>
+</div>
+<!-- Panel Header & Progress -->
+<div class="p-space-sm border-b border-on-surface bg-surface-container-low space-y-space-xs">
+<div class="flex justify-between items-center text-label-md font-label-md">
+<span class="uppercase">Progress Status</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed px-1 border border-on-surface">34 / 98</span>
+</div>
+<!-- Dusty pink progress bar -->
+<div class="w-full h-4 bg-surface-container-lowest border border-on-surface p-0.5">
+<div class="h-full bg-primary-container border-r border-on-surface flex items-center justify-center" style="width: 35%">
+<span class="text-[8px] font-bold tracking-widest text-on-primary-container">35%</span>
+</div>
+</div>
+</div>
+<!-- Category Tabs (Stationery Index Tabs) -->
+<div class="p-2 border-b border-on-surface bg-surface-container-high flex flex-wrap gap-1">
+<button class="min-h-[36px] px-2 py-1 bg-primary-container text-on-primary-container border border-on-surface text-label-sm font-label-sm font-bold shadow-[1px_1px_0px_#1b1c1a]">All</button>
+<button class="min-h-[36px] px-2 py-1 bg-surface border border-on-surface hover:bg-surface-container text-label-sm font-label-sm">Upper (A-Z)</button>
+<button class="min-h-[36px] px-2 py-1 bg-surface border border-on-surface hover:bg-surface-container text-label-sm font-label-sm">Lower (a-z)</button>
+<button class="min-h-[36px] px-2 py-1 bg-surface border border-on-surface hover:bg-surface-container text-label-sm font-label-sm">Turkish (Ç,Ğ,İ...)</button>
+<button class="min-h-[36px] px-2 py-1 bg-surface border border-on-surface hover:bg-surface-container text-label-sm font-label-sm">Digits</button>
+<button class="min-h-[36px] px-2 py-1 bg-surface border border-on-surface hover:bg-surface-container text-label-sm font-label-sm">Punct</button>
+</div>
+<!-- Scrollable Retro Glyph Grid -->
+<div class="p-space-sm max-h-[580px] overflow-y-auto space-y-3 bg-surface-container-lowest">
+<div>
+<div class="text-[10px] font-bold tracking-wider text-on-surface-variant uppercase mb-1 flex items-center gap-1">
+<span>UPPERCASE ALPHABET</span>
+<div class="flex-1 border-b border-dotted border-outline"></div>
+</div>
+<div class="grid grid-cols-4 sm:grid-cols-5 gap-1.5">
+<!-- Active Glyph: 'A' -->
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-primary-container border-2 border-secondary text-on-primary-container shadow-[2px_2px_0px_#1b1c1a] relative group">
+<span class="text-[9px] font-title-sm self-start leading-none">A</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">A</span>
+<span class="absolute top-1 right-1 text-[10px] font-bold text-on-surface">✓</span>
+</button>
+<!-- Completed Glyphs -->
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface hover:bg-surface-container shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">B</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">B</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface hover:bg-surface-container shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">C</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">C</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface hover:bg-surface-container shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">Ç</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">Ç</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface hover:bg-surface-container shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">D</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">D</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface hover:bg-surface-container shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">E</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">E</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<!-- Empty Glyphs: Dashed borders -->
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline hover:border-on-surface hover:bg-surface-container-low">
+<span class="text-headline-sm font-headline-sm text-outline-variant">F</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline hover:border-on-surface hover:bg-surface-container-low">
+<span class="text-headline-sm font-headline-sm text-outline-variant">G</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline hover:border-on-surface hover:bg-surface-container-low">
+<span class="text-headline-sm font-headline-sm text-outline-variant">Ğ</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline hover:border-on-surface hover:bg-surface-container-low">
+<span class="text-headline-sm font-headline-sm text-outline-variant">H</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+</div>
+</div>
+<div>
+<div class="text-[10px] font-bold tracking-wider text-on-surface-variant uppercase mb-1 flex items-center gap-1">
+<span>LOWERCASE ALPHABET</span>
+<div class="flex-1 border-b border-dotted border-outline"></div>
+</div>
+<div class="grid grid-cols-4 sm:grid-cols-5 gap-1.5">
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">a</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">a</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">b</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">b</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">c</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">c</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">g</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">g</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">m</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">m</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<!-- More Empty Glyphs -->
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline">
+<span class="text-headline-sm font-headline-sm text-outline-variant">k</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline">
+<span class="text-headline-sm font-headline-sm text-outline-variant">p</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline">
+<span class="text-headline-sm font-headline-sm text-outline-variant">q</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline">
+<span class="text-headline-sm font-headline-sm text-outline-variant">ş</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline">
+<span class="text-headline-sm font-headline-sm text-outline-variant">z</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+</div>
+</div>
+<div>
+<div class="text-[10px] font-bold tracking-wider text-on-surface-variant uppercase mb-1 flex items-center gap-1">
+<span>DIGITS &amp; PUNCTUATION</span>
+<div class="flex-1 border-b border-dotted border-outline"></div>
+</div>
+<div class="grid grid-cols-4 sm:grid-cols-5 gap-1.5">
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">7</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">7</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-between p-1 bg-surface-container-low border border-on-surface shadow-[1px_1px_0px_#1b1c1a] relative">
+<span class="text-[9px] font-title-sm self-start leading-none text-on-surface-variant">!</span>
+<span class="font-handwriting text-2xl -mt-1 text-on-surface">!</span>
+<span class="absolute top-1 right-1 text-[9px] text-primary">✓</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline">
+<span class="text-headline-sm font-headline-sm text-outline-variant">?</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline">
+<span class="text-headline-sm font-headline-sm text-outline-variant">8</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+<button class="min-h-[52px] flex flex-col items-center justify-center p-1 bg-surface border border-dashed border-outline">
+<span class="text-headline-sm font-headline-sm text-outline-variant">9</span>
+<span class="text-[8px] text-outline font-label-sm">EMPTY</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Quick glyph jump footer -->
+<div class="p-2 border-t border-on-surface bg-surface-container flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-on-surface-variant">SELECT: [A] 0x0041</span>
+<button class="min-h-[44px] px-2 bg-surface border border-on-surface hover:bg-surface-container-high shadow-[1px_1px_0px_#1b1c1a] active:translate-x-[1px] active:translate-y-[1px]">
+          + ADD UNICODE
+        </button>
+</div>
+</aside>
+<!-- ================= 2. CENTER HERO PANEL: "CANVAS.EXE - A" (6 COLS) ================= -->
+<section class="lg:col-span-6 flex flex-col bg-surface border border-on-surface shadow-[3px_3px_0px_#1b1c1a]">
+<!-- OS Window Title Bar -->
+<div class="pinstripe-bar h-8 px-2 flex items-center justify-between border-b border-on-surface select-none">
+<div class="flex items-center gap-1">
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">✕</div>
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">_</div>
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">□</div>
+</div>
+<div class="bg-surface px-3 py-0.5 border border-on-surface text-title-sm font-title-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px] text-primary">draw</span>
+<span>CANVAS.EXE - [ GLYPH: 'A' | U+0041 ]</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="text-[10px] font-bold bg-secondary-fixed text-on-secondary-fixed px-1 border border-on-surface">IPAD PEN READY</span>
+</div>
+</div>
+<!-- Drawing Toolbar (Touch targets >= 44px) -->
+<div class="p-space-sm border-b border-on-surface bg-surface-container-low flex flex-wrap items-center justify-between gap-space-sm">
+<!-- Pen Tooling -->
+<div class="flex items-center flex-wrap gap-2">
+<!-- Brush size toggle buttons -->
+<div class="flex items-center border border-on-surface bg-surface shadow-[1px_1px_0px_#1b1c1a]">
+<button class="min-h-[44px] min-w-[44px] flex items-center justify-center text-label-sm font-label-sm hover:bg-surface-container border-r border-on-surface" title="Small Nib">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface"></span>
+</button>
+<button class="min-h-[44px] min-w-[44px] flex items-center justify-center text-label-sm font-label-sm bg-primary-container text-on-primary-container font-bold border-r border-on-surface" title="Medium Nib">
+<span class="w-3 h-3 rounded-full bg-on-surface"></span>
+</button>
+<button class="min-h-[44px] min-w-[44px] flex items-center justify-center text-label-sm font-label-sm hover:bg-surface-container" title="Bold Nib">
+<span class="w-4 h-4 rounded-full bg-on-surface"></span>
+</button>
+</div>
+<!-- Pressure Sensitivity Retro Toggle Box -->
+<label class="min-h-[44px] flex items-center gap-2 px-space-sm bg-surface border border-on-surface shadow-[1px_1px_0px_#1b1c1a] cursor-pointer select-none">
+<input checked="" class="w-4 h-4 text-primary rounded-none border-on-surface focus:ring-0" type="checkbox"/>
+<span class="text-label-sm font-label-sm">Pressure sensitivity</span>
+</label>
+</div>
+<!-- History & Navigation Actions -->
+<div class="flex items-center flex-wrap gap-1.5">
+<button class="min-h-[44px] min-w-[44px] flex items-center justify-center bg-surface border border-on-surface shadow-[1px_1px_0px_#1b1c1a] hover:bg-surface-container active:translate-x-[1px] active:translate-y-[1px]" title="Undo (Cmd+Z)">
+<span class="material-symbols-outlined text-[18px]">undo</span>
+</button>
+<button class="min-h-[44px] min-w-[44px] flex items-center justify-center bg-surface border border-on-surface shadow-[1px_1px_0px_#1b1c1a] hover:bg-surface-container active:translate-x-[1px] active:translate-y-[1px]" title="Redo (Cmd+Y)">
+<span class="material-symbols-outlined text-[18px]">redo</span>
+</button>
+<button class="min-h-[44px] px-2.5 flex items-center justify-center bg-surface border border-on-surface shadow-[1px_1px_0px_#1b1c1a] hover:bg-error-container text-on-surface hover:text-error active:translate-x-[1px] active:translate-y-[1px] gap-1 text-label-sm font-label-sm" title="Clear Canvas">
+<span class="material-symbols-outlined text-[16px]">ink_eraser</span>
+<span>Clear</span>
+</button>
+<button class="min-h-[44px] px-2 flex items-center justify-center bg-secondary-fixed text-on-secondary-fixed border border-on-surface shadow-[1px_1px_0px_#1b1c1a] text-label-sm font-label-sm gap-1" title="Toggle Guidelines">
+<span class="material-symbols-outlined text-[16px]">grid_4x4</span>
+<span>Guides ON</span>
+</button>
+</div>
+</div>
+<!-- Quick Glyph Stepper Navigation -->
+<div class="px-space-md py-1.5 border-b border-on-surface bg-surface-container flex items-center justify-between text-label-sm font-label-sm">
+<button class="min-h-[44px] px-space-sm flex items-center gap-1 hover:text-primary active:translate-x-[1px] active:translate-y-[1px]">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>[ &lt; PREV: @ ]</span>
+</button>
+<span class="font-bold text-on-surface px-2 py-0.5 bg-surface border border-on-surface">CHARACTER 65 OF 128</span>
+<button class="min-h-[44px] px-space-sm flex items-center gap-1 hover:text-primary active:translate-x-[1px] active:translate-y-[1px]">
+<span>[ NEXT: B &gt; ]</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<!-- Central Drawing Canvas Hero Container -->
+<div class="p-space-md bg-surface-container-high flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Retro Corner Doodle Accents (Stationery Motifs) -->
+<div class="absolute top-2 left-2 text-outline-variant pointer-events-none select-none text-[10px] font-title-sm">
+          + + + +
+        </div>
+<div class="absolute top-2 right-2 text-outline pointer-events-none select-none text-xs flex items-center gap-1">
+<span>✎ desk_pad_mode</span>
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+</div>
+<!-- The Canvas Surface (500x500 square proportion) -->
+<div class="w-full max-w-[500px] aspect-square bg-[#ffffff] border-2 border-on-surface shadow-[4px_4px_0px_#1b1c1a] relative select-none cursor-crosshair overflow-hidden">
+<!-- Subtle Paper Grid Texture -->
+<div class="absolute inset-0 bg-[linear-gradient(to_right,#f5f2eb_1px,transparent_1px),linear-gradient(to_bottom,#f5f2eb_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none opacity-80"></div>
+<!-- Top-Right Ghost Reference Guide Letter -->
+<div class="absolute top-3 right-4 pointer-events-none flex flex-col items-end">
+<span class="text-[10px] font-label-sm text-outline uppercase tracking-wider">Reference Ghost</span>
+<span class="font-serif text-6xl text-[#e4e0d8] font-bold select-none leading-none">A</span>
+</div>
+<!-- Typographic Guideline Overlays -->
+<!-- 1. Ascender Line (12%) -->
+<div class="absolute w-full top-[12%] border-b border-dashed border-[#837374] pointer-events-none flex items-center justify-between px-2">
+<span class="text-[9px] font-label-sm bg-surface px-1 border border-on-surface leading-none text-on-surface-variant">ascender</span>
+<span class="text-[9px] font-label-sm text-outline-variant">y: 800</span>
+</div>
+<!-- 2. Cap Height (25%) -->
+<div class="absolute w-full top-[25%] border-b border-dashed border-[#837374] pointer-events-none flex items-center justify-between px-2">
+<span class="text-[9px] font-label-sm bg-surface px-1 border border-on-surface leading-none text-on-surface-variant">cap height</span>
+<span class="text-[9px] font-label-sm text-outline-variant">y: 700</span>
+</div>
+<!-- 3. x-Height (46%) -->
+<div class="absolute w-full top-[46%] border-b-2 border-dotted border-primary-container pointer-events-none flex items-center justify-between px-2">
+<span class="text-[9px] font-label-sm bg-tertiary-fixed text-on-tertiary-fixed px-1 border border-on-surface leading-none">x-height</span>
+<span class="text-[9px] font-label-sm text-primary">y: 500</span>
+</div>
+<!-- 4. Baseline (75%) -> PROMINENT SOLID BLACK RULE -->
+<div class="absolute w-full top-[75%] border-b-2 border-on-surface pointer-events-none flex items-center justify-between px-2 z-10">
+<div class="flex items-center gap-1">
+<span class="text-[9px] font-label-md font-bold bg-on-surface text-surface px-1.5 py-0.5 leading-none">baseline (0)</span>
+<span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+</div>
+<span class="text-[9px] font-label-sm font-bold bg-surface border border-on-surface px-1">ORIGIN: 0.00</span>
+</div>
+<!-- 5. Descender Line (90%) -->
+<div class="absolute w-full top-[90%] border-b border-dashed border-[#837374] pointer-events-none flex items-center justify-between px-2">
+<span class="text-[9px] font-label-sm bg-surface px-1 border border-on-surface leading-none text-on-surface-variant">descender</span>
+<span class="text-[9px] font-label-sm text-outline-variant">y: -200</span>
+</div>
+<!-- Vertical Bearing Guides -->
+<!-- Left side bearing indicator (at 18%) -->
+<div class="absolute h-full left-[18%] border-r border-dotted border-secondary pointer-events-none flex flex-col justify-end p-1">
+<span class="text-[8px] font-label-sm bg-secondary-fixed text-on-secondary-fixed px-0.5 border border-on-surface rotate-90 origin-bottom-left mb-6">LSB: 18px</span>
+</div>
+<!-- Right side bearing indicator (at 82%) -->
+<div class="absolute h-full left-[82%] border-r border-dotted border-secondary pointer-events-none flex flex-col justify-end p-1">
+<span class="text-[8px] font-label-sm bg-secondary-fixed text-on-secondary-fixed px-0.5 border border-on-surface rotate-90 origin-bottom-left mb-6">RSB: 22px</span>
+</div>
+<!-- Simulated User-Drawn Handwriting Stroke of Letter 'A' -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" fill="none" viewbox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+<!-- Left stroke of 'A' with authentic variable ink width -->
+<path d="M 170 375 C 190 310, 230 180, 248 135 C 252 126, 258 130, 260 142" stroke="#1b1c1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="7"></path>
+<!-- Right stroke of 'A' -->
+<path d="M 250 135 C 265 190, 305 320, 335 375" stroke="#1b1c1a" stroke-linecap="round" stroke-linejoin="round" stroke-width="6.5"></path>
+<!-- Handwriting crossbar with playful stationery curve -->
+<path d="M 188 285 Q 248 290 312 282 Q 320 280 324 286" stroke="#1b1c1a" stroke-linecap="round" stroke-width="5.5"></path>
+<!-- Cute ink splatter doodle -->
+<circle cx="338" cy="378" fill="#1b1c1a" r="2"></circle>
+<circle cx="166" cy="379" fill="#1b1c1a" r="1.5"></circle>
+</svg>
+<!-- Interactive Drawing Placeholder Hint -->
+<div class="absolute bottom-2 right-2 bg-surface-container/90 border border-on-surface px-2 py-1 text-[9px] font-label-sm flex items-center gap-1 text-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span>Touch or Pencil to draw</span>
+</div>
+</div>
+</div>
+<!-- Spacing & Font Metrics Bar (Side Bearings) -->
+<div class="p-space-sm border-t border-on-surface bg-surface-container-low space-y-space-sm">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm items-center">
+<!-- Left Bearing -->
+<div class="space-y-1">
+<div class="flex justify-between text-label-sm font-label-sm">
+<span>Left side bearing (LSB)</span>
+<span class="font-bold">18 px</span>
+</div>
+<input class="w-full" max="60" min="0" type="range" value="18"/>
+</div>
+<!-- Right Bearing -->
+<div class="space-y-1">
+<div class="flex justify-between text-label-sm font-label-sm">
+<span>Right side bearing (RSB)</span>
+<span class="font-bold">22 px</span>
+</div>
+<input class="w-full" max="60" min="0" type="range" value="22"/>
+</div>
+<!-- Advance Width Readout -->
+<div class="bg-surface border border-on-surface p-2 flex flex-col justify-center items-center shadow-[1px_1px_0px_#1b1c1a]">
+<span class="text-[9px] font-label-sm text-on-surface-variant uppercase">Advance Width</span>
+<span class="text-title-sm font-title-sm text-primary font-bold">140 px (0.58 em)</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 3. RIGHT PANEL: "PREVIEW.TXT" & "EXPORT.EXE" (3 COLS) ================= -->
+<aside class="lg:col-span-3 space-y-gutter-desktop">
+<!-- ================= 3A. PREVIEW.TXT WINDOW ================= -->
+<div class="flex flex-col bg-surface border border-on-surface shadow-[3px_3px_0px_#1b1c1a]">
+<!-- Window Title Bar -->
+<div class="pinstripe-bar h-8 px-2 flex items-center justify-between border-b border-on-surface select-none">
+<div class="flex items-center gap-1">
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">✕</div>
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">□</div>
+</div>
+<div class="bg-surface px-2 py-0.5 border border-on-surface text-title-sm font-title-sm text-on-surface">
+            PREVIEW.TXT
+          </div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">edit_note</span>
+</div>
+<!-- Preview Controls Toolbar -->
+<div class="p-2 border-b border-on-surface bg-surface-container-low flex flex-wrap items-center justify-between gap-2 text-label-sm font-label-sm">
+<div class="flex items-center gap-1">
+<span>Size:</span>
+<div class="flex border border-on-surface bg-surface">
+<button class="px-1.5 py-0.5 hover:bg-surface-container border-r border-on-surface">18</button>
+<button class="px-1.5 py-0.5 bg-primary-container font-bold border-r border-on-surface">24</button>
+<button class="px-1.5 py-0.5 hover:bg-surface-container border-r border-on-surface">36</button>
+<button class="px-1.5 py-0.5 hover:bg-surface-container">48</button>
+</div>
+</div>
+<button class="px-2 py-1 bg-surface border border-on-surface shadow-[1px_1px_0px_#1b1c1a] hover:bg-surface-container flex items-center gap-1">
+<span class="w-2.5 h-2.5 rounded-full bg-[#fbf9f6] border border-on-surface"></span>
+<span>Paper</span>
+</button>
+</div>
+<!-- Ruled Interactive Notepad Box -->
+<div class="p-space-sm bg-surface-container-lowest">
+<div class="ruled-paper border border-on-surface p-space-sm min-h-[170px] relative focus-within:ring-2 focus-within:ring-primary-container">
+<div class="font-handwriting text-2xl text-on-surface leading-[28px] outline-none" contenteditable="true" spellcheck="false">
+              The quick brown fox jumps over the lazy dog · Çağrı ışığı söndü 12345!?
+              <span class="inline-block w-2 h-4 bg-on-surface retro-caret align-middle ml-0.5"></span>
+</div>
+<div class="absolute bottom-1 right-2 text-[9px] font-label-sm text-outline-variant select-none">
+              EDITABLE NOTEPAD
+            </div>
+</div>
+</div>
+<div class="px-2 py-1.5 bg-surface-container border-t border-on-surface flex justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>Kerning: Default (Metrics)</span>
+<span>OpenType Ligatures: ON</span>
+</div>
+</div>
+<!-- ================= 3B. EXPORT.EXE WINDOW ================= -->
+<div class="flex flex-col bg-surface border border-on-surface shadow-[3px_3px_0px_#1b1c1a]">
+<!-- Window Title Bar -->
+<div class="pinstripe-bar h-8 px-2 flex items-center justify-between border-b border-on-surface select-none">
+<div class="flex items-center gap-1">
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">✕</div>
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">□</div>
+</div>
+<div class="bg-surface px-2 py-0.5 border border-on-surface text-title-sm font-title-sm text-on-surface">
+            EXPORT.EXE
+          </div>
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">download_for_offline</span>
+</div>
+<!-- Metadata Form Fields -->
+<div class="p-space-sm space-y-space-sm bg-surface-container-low">
+<div>
+<label class="block text-label-sm font-label-sm uppercase mb-1">Font Family Name</label>
+<input class="w-full bg-[#ffffff] border border-on-surface text-body-sm font-body-sm px-space-sm py-1.5 shadow-[1px_1px_0px_#d8d4cf_inset] focus:outline-none focus:ring-1 focus:ring-primary" type="text" value="My Vintage Script"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm uppercase mb-1">Designer / Author</label>
+<input class="w-full bg-[#ffffff] border border-on-surface text-body-sm font-body-sm px-space-sm py-1.5 shadow-[1px_1px_0px_#d8d4cf_inset] focus:outline-none focus:ring-1 focus:ring-primary" type="text" value="Stationery Studio"/>
+</div>
+<!-- Warning Banner (Gentle Stationery Callout) -->
+<div class="bg-tertiary-fixed border border-on-surface p-2 text-label-sm font-label-sm text-on-tertiary-fixed flex items-start gap-1.5 shadow-[1px_1px_0px_#1b1c1a]">
+<span class="text-primary font-bold text-sm leading-none">⚠</span>
+<p class="leading-tight">
+              64 glyphs remaining empty. Will fallback to basic monospaced shapes if exported now.
+            </p>
+</div>
+<!-- Hero Primary Action Button: Download .otf -->
+<button class="w-full min-h-[48px] bg-primary-container text-on-primary-container border border-on-surface shadow-[3px_3px_0px_#1b1c1a] hover:bg-primary-fixed-dim active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center gap-2 font-title-sm text-title-sm">
+<span class="material-symbols-outlined text-[20px]">font_download</span>
+<span>DOWNLOAD .OTF (RECOMMENDED)</span>
+</button>
+<!-- Secondary Export Buttons -->
+<div class="grid grid-cols-2 gap-2">
+<button class="min-h-[44px] bg-surface border border-on-surface shadow-[2px_2px_0px_#1b1c1a] hover:bg-surface-container active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center justify-center gap-1 text-label-md font-label-md">
+<span class="material-symbols-outlined text-[16px]">file_save</span>
+<span>.TTF</span>
+</button>
+<button class="min-h-[44px] bg-surface border border-on-surface shadow-[2px_2px_0px_#1b1c1a] hover:bg-surface-container active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center justify-center gap-1 text-label-md font-label-md">
+<span class="material-symbols-outlined text-[16px]">language</span>
+<span>.WOFF2</span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- ================= 4. BOTTOM HELP & INSTRUCTION SECTION: "HELP.TXT" ================= -->
+<section class="w-full max-w-[1720px] mx-auto px-space-sm md:px-gutter-desktop pb-space-lg">
+<div class="bg-surface border border-on-surface shadow-[3px_3px_0px_#1b1c1a]">
+<!-- Title bar -->
+<div class="pinstripe-bar h-8 px-2 flex items-center justify-between border-b border-on-surface select-none">
+<div class="flex items-center gap-1">
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">✕</div>
+<div class="w-3.5 h-3.5 bg-surface-container-lowest border border-on-surface flex items-center justify-center text-[9px] font-bold">□</div>
+</div>
+<div class="bg-surface px-3 py-0.5 border border-on-surface text-title-sm font-title-sm text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-secondary">help</span>
+<span>HELP.TXT - USER_GUIDE &amp; STATIONERY NOTES</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">READ ONLY</span>
+</div>
+<!-- 3-Column Bento Information Grid -->
+<div class="p-space-md grid grid-cols-1 md:grid-cols-3 gap-gutter-desktop bg-surface-container-low">
+<!-- Step Guide Card -->
+<div class="bg-surface border border-on-surface p-space-md shadow-[2px_2px_0px_#1b1c1a] relative">
+<div class="flex items-center justify-between mb-space-sm border-b border-on-surface pb-1">
+<h3 class="font-title-sm text-title-sm uppercase text-on-surface">1. How to use</h3>
+<span class="text-label-sm font-label-sm bg-secondary-fixed text-on-secondary-fixed px-1 border border-on-surface">3 STEPS</span>
+</div>
+<ol class="space-y-space-xs text-body-sm font-body-sm list-decimal list-inside">
+<li class="leading-relaxed"><strong class="font-bold">Draw glyphs:</strong> Select letters in the left tray and sketch them onto the canvas with your pen, tablet, or mouse.</li>
+<li class="leading-relaxed"><strong class="font-bold">Test live preview:</strong> Type sample sentences in PREVIEW.TXT to inspect line height and kerning rhythms.</li>
+<li class="leading-relaxed"><strong class="font-bold">Export your font:</strong> Hit "Download .otf" to produce standard true OpenType files.</li>
+</ol>
+</div>
+<!-- Installation Instructions Card -->
+<div class="bg-surface border border-on-surface p-space-md shadow-[2px_2px_0px_#1b1c1a] relative">
+<div class="flex items-center justify-between mb-space-sm border-b border-on-surface pb-1">
+<h3 class="font-title-sm text-title-sm uppercase text-on-surface">2. Installation</h3>
+<span class="text-label-sm font-label-sm bg-primary-fixed text-on-primary-fixed-variant px-1 border border-on-surface">ANY OS</span>
+</div>
+<div class="space-y-space-xs text-body-sm font-body-sm">
+<div class="p-1.5 bg-surface-container border border-on-surface">
+<span class="font-bold text-label-sm font-label-sm block uppercase text-primary">Mac / Windows:</span>
+<p class="leading-snug">Double-click the downloaded .otf file and select "Install Font" in your system Font Book or Control Panel.</p>
+</div>
+<div class="p-1.5 bg-surface-container border border-on-surface">
+<span class="font-bold text-label-sm font-label-sm block uppercase text-secondary">iPad / Canva / GoodNotes:</span>
+<p class="leading-snug">Upload the .otf file directly into your Canva Brand Kit, Procreate font folder, or use the iFont iOS profile installer.</p>
+</div>
+</div>
+</div>
+<!-- Privacy & Local Processing Guarantee Badge Card -->
+<div class="bg-surface border border-on-surface p-space-md shadow-[2px_2px_0px_#1b1c1a] flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm border-b border-on-surface pb-1">
+<h3 class="font-title-sm text-title-sm uppercase text-on-surface">3. Privacy Guarantee</h3>
+<span class="text-label-sm font-label-sm bg-surface-container-high px-1 border border-on-surface">OFFLINE</span>
+</div>
+<div class="flex items-start gap-2 text-body-sm font-body-sm leading-relaxed">
+<span class="material-symbols-outlined text-primary text-[28px] shrink-0 mt-0.5">verified_user</span>
+<p>
+<strong class="font-bold text-on-surface">100% Client-Side:</strong> Everything stays securely inside your browser. No handwriting strokes or vectors are ever uploaded to an external server. The fonts you design remain entirely yours.
+              </p>
+</div>
+</div>
+<div class="mt-space-sm pt-space-xs border-t border-dashed border-outline flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span>STATIONERY SOFTWORKS (C) 1989-1994</span>
+<span class="text-primary font-bold">STAMP: VERIFIED ✓</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= 5. FOOTER (from Shared Components JSON: Footer) ================= -->
+<footer class="bg-surface-container-high border-t border-on-surface shadow-[0px_-1px_0px_#1b1c1a] w-full flex flex-col md:flex-row justify-between items-center px-space-md md:px-margin-desktop py-space-xs text-on-surface-variant text-label-sm font-label-sm gap-2 select-none">
+<div class="flex items-center gap-space-sm">
+<span class="text-on-surface font-bold">TYPEWRITER_OS (C) 1989-1994 STATIONERY SOFTWORKS CORP. ALL RIGHTS RESERVED.</span>
+</div>
+<!-- Retro System Status Information -->
+<div class="flex flex-wrap items-center gap-space-md">
+<span class="cursor-pointer hover:text-primary hover:underline">STATUS: OK</span>
+<span class="cursor-pointer hover:text-primary hover:underline">MEM: 640KB</span>
+<span class="cursor-pointer hover:text-primary hover:underline">GUIDES: ON</span>
+<span class="text-on-surface font-bold cursor-pointer hover:text-primary hover:underline">BASELINE: 24PX</span>
+</div>
+</footer>
+<!-- ================= 6. BOTTOM OS SYSTEM STATUS BAR ================= -->
+<div class="bg-inverse-surface text-inverse-on-surface px-space-md md:px-margin-desktop py-1 flex flex-col sm:flex-row items-center justify-between text-[11px] font-label-sm tracking-wider border-t border-on-surface">
+<div class="flex items-center gap-space-md">
+<span class="text-primary-fixed-dim">C:\FONTS\MY_HANDWRITING.OTF</span>
+<span class="hidden md:inline text-surface-dim">|</span>
+<span class="hidden md:inline text-surface-dim">BUFFER: 2,048 BYTES</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span>SYSTEM MEMORY: 640KB</span>
+<span>TABLET PEN: CONNECTED</span>
+<span class="text-secondary-fixed font-bold">34 of 98 [35%]</span>
+</div>
+</div>
+</body></html>

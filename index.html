@@ -78,7 +78,7 @@
       <div class="titlebar">
         <span class="wctl" aria-hidden="true"></span>
         <h2 class="wtitle" id="canvas-title">CANVAS.EXE</h2>
-        <span class="wmeta badge badge-blue">PEN READY</span>
+        <span class="wmeta badge badge-blue" id="input-badge">pen ready</span>
       </div>
       <div class="wbody">
         <div class="toolbar">
@@ -92,9 +92,9 @@
             <span>Pressure</span>
           </label>
           <div class="toolbar-group">
-            <button type="button" class="btn btn-icon" id="btn-undo" aria-label="Undo" disabled><span class="icon" aria-hidden="true">undo</span></button>
-            <button type="button" class="btn btn-icon" id="btn-redo" aria-label="Redo" disabled><span class="icon" aria-hidden="true">redo</span></button>
-            <button type="button" class="btn" id="btn-clear" disabled><span class="icon" aria-hidden="true">ink_eraser</span>Clear</button>
+            <button type="button" class="btn btn-icon" id="btn-undo" aria-label="Undo"><span class="icon" aria-hidden="true">undo</span></button>
+            <button type="button" class="btn btn-icon" id="btn-redo" aria-label="Redo"><span class="icon" aria-hidden="true">redo</span></button>
+            <button type="button" class="btn" id="btn-clear"><span class="icon" aria-hidden="true">ink_eraser</span>Clear</button>
           </div>
           <div class="toolbar-group">
             <button type="button" class="btn btn-toggle" id="btn-guides" aria-pressed="true"><span class="icon" aria-hidden="true">grid_on</span>Guides</button>
@@ -116,11 +116,11 @@
           <div class="bearings">
             <label class="slider">
               <span>Left spacing <output id="lsb-value">40</output></span>
-              <input type="range" id="lsb" min="0" max="200" step="5" value="40" disabled>
+              <input type="range" id="lsb" min="0" max="200" step="5" value="40">
             </label>
             <label class="slider">
               <span>Right spacing <output id="rsb-value">40</output></span>
-              <input type="range" id="rsb" min="0" max="200" step="5" value="40" disabled>
+              <input type="range" id="rsb" min="0" max="200" step="5" value="40">
             </label>
           </div>
           <button type="button" class="btn btn-primary btn-next" id="btn-next">

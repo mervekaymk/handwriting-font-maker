@@ -1,8 +1,12 @@
 // Entry point: builds the glyph grid and connects the page to the state.
 
 import { GLYPHS, SECTIONS } from './glyphs.js';
-import { state, onChange, selectGlyph, selectedGlyph, isDone, countDone } from './state.js';
-import { GlyphCanvas } from './canvas.js';
+import {
+  state, onChange, selectGlyph, selectedGlyph, isDone, countDone,
+  getGlyphData, addStroke, clearGlyph, undo, redo, canUndo, canRedo, setBearing,
+} from './state.js';
+import { GlyphCanvas, drawThumbnail } from './canvas.js';
+import { BRUSH_SIZES } from './stroke.js';
 
 // Short helper for document.getElementById.
 function $(id) {
@@ -13,6 +17,10 @@ const glyphCanvas = new GlyphCanvas($('draw-canvas'));
 
 // One <button> per glyph, keyed by glyph id, so we can update them later.
 const cellsById = {};
+
+// For each glyph, the strokes array its thumbnail was last drawn from.
+// Every change creates a new array, so "different array" = "needs redraw".
+const thumbDrawnFrom = {};
 
 // ---------- Glyph grid ----------
 
@@ -39,8 +47,13 @@ function buildGlyphGrid() {
       const cell = document.createElement('button');
       cell.type = 'button';
       cell.className = 'glyph-cell';
-      cell.innerHTML = `<span class="cell-char"></span><span class="cell-mark" aria-hidden="true"></span>`;
+      cell.innerHTML =
+        `<span class="cell-char"></span>` +
+        `<canvas class="cell-thumb" aria-hidden="true"></canvas>` +
+        `<span class="cell-label" aria-hidden="true"></span>` +
+        `<span class="cell-mark" aria-hidden="true"></span>`;
       cell.querySelector('.cell-char').textContent = glyph.char;
+      cell.querySelector('.cell-label').textContent = glyph.char;
       cell.addEventListener('click', () => selectGlyph(glyph.index));
 
       cellsById[glyph.id] = cell;
@@ -73,19 +86,67 @@ function setupFilterTabs() {
 // ---------- Canvas controls ----------
 
 function setupCanvasControls() {
+  // A finished stroke is saved into the selected glyph.
+  glyphCanvas.onStrokeEnd = (stroke) => addStroke(selectedGlyph().id, stroke);
+  glyphCanvas.onInputType = (type) => { $('input-badge').textContent = `${type} ready`; };
+
+  // Navigation.
   $('btn-prev').addEventListener('click', () => selectGlyph(state.selectedIndex - 1));
   $('btn-next-top').addEventListener('click', () => selectGlyph(state.selectedIndex + 1));
   $('btn-next').addEventListener('click', () => selectGlyph(state.selectedIndex + 1));
 
+  // Editing.
+  $('btn-undo').addEventListener('click', () => undo(selectedGlyph().id));
+  $('btn-redo').addEventListener('click', () => redo(selectedGlyph().id));
+  $('btn-clear').addEventListener('click', () => clearGlyph(selectedGlyph().id));
+
+  // Brush size: three buttons, only one pressed at a time.
+  const brushButtons = document.querySelectorAll('[data-brush]');
+  for (const button of brushButtons) {
+    button.addEventListener('click', () => {
+      for (const other of brushButtons) {
+        other.setAttribute('aria-pressed', String(other === button));
+      }
+      glyphCanvas.brushSize = BRUSH_SIZES[button.dataset.brush];
+    });
+  }
+  glyphCanvas.brushSize = BRUSH_SIZES.medium;
+
+  // Pressure sensitivity (only affects new strokes).
+  $('opt-pressure').addEventListener('change', (e) => {
+    glyphCanvas.pressureEnabled = e.target.checked;
+  });
+
+  // Side bearing sliders.
+  for (const side of ['lsb', 'rsb']) {
+    $(side).addEventListener('input', (e) => {
+      setBearing(selectedGlyph().id, side, Number(e.target.value));
+    });
+  }
+
   setupToggle($('btn-guides'), (on) => { glyphCanvas.showGuides = on; glyphCanvas.draw(); });
   setupToggle($('btn-ghost'), (on) => { glyphCanvas.showGhost = on; glyphCanvas.draw(); });
 
-  // Left / right arrow keys switch characters, unless the user is typing in a field.
+  // Keyboard shortcuts, unless the user is typing in a field:
+  //   left / right arrow = previous / next character
+  //   Ctrl+Z = undo, Ctrl+Shift+Z or Ctrl+Y = redo (Cmd on Mac)
   document.addEventListener('keydown', (event) => {
     const tag = document.activeElement ? document.activeElement.tagName : '';
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-    if (event.key === 'ArrowLeft') selectGlyph(state.selectedIndex - 1);
-    if (event.key === 'ArrowRight') selectGlyph(state.selectedIndex + 1);
+
+    const mod = event.ctrlKey || event.metaKey;
+    const key = event.key.toLowerCase();
+    if (mod && key === 'z' && !event.shiftKey) {
+      event.preventDefault();
+      undo(selectedGlyph().id);
+    } else if (mod && (key === 'y' || (key === 'z' && event.shiftKey))) {
+      event.preventDefault();
+      redo(selectedGlyph().id);
+    } else if (event.key === 'ArrowLeft') {
+      selectGlyph(state.selectedIndex - 1);
+    } else if (event.key === 'ArrowRight') {
+      selectGlyph(state.selectedIndex + 1);
+    }
   });
 }
 
@@ -100,12 +161,7 @@ function setupToggle(button, onToggle) {
 
 // ---------- Rendering: update the page from the state ----------
 
-function render() {
-  const glyph = selectedGlyph();
-  const total = GLYPHS.length;
-  const done = countDone();
-
-  // Grid cells: selected / done / empty.
+function renderGrid() {
   for (const g of GLYPHS) {
     const cell = cellsById[g.id];
     const doneHere = isDone(g.id);
@@ -116,7 +172,23 @@ function render() {
     cell.setAttribute('aria-label', `${g.char} (${g.id}), ${doneHere ? 'drawn' : 'empty'}`);
     if (selected) cell.setAttribute('aria-current', 'true');
     else cell.removeAttribute('aria-current');
+
+    // Redraw the thumbnail only if this glyph's strokes changed.
+    const strokes = doneHere ? state.glyphData[g.id].strokes : null;
+    if (strokes && thumbDrawnFrom[g.id] !== strokes) {
+      drawThumbnail(cell.querySelector('.cell-thumb'), strokes);
+    }
+    thumbDrawnFrom[g.id] = strokes;
   }
+}
+
+function render() {
+  const glyph = selectedGlyph();
+  const data = getGlyphData(glyph.id);
+  const total = GLYPHS.length;
+  const done = countDone();
+
+  renderGrid();
 
   // Canvas header and navigation.
   const prev = GLYPHS[(glyph.index - 1 + total) % total];
@@ -126,7 +198,17 @@ function render() {
   $('prev-label').textContent = `prev: ${prev.char}`;
   $('next-label').textContent = `next: ${next.char}`;
   $('btn-next').setAttribute('aria-label', `Next character: ${next.char}`);
-  glyphCanvas.setChar(glyph.char);
+  glyphCanvas.char = glyph.char;
+  glyphCanvas.setStrokes(data.strokes);
+
+  // Editing buttons and spacing sliders for this glyph.
+  $('btn-undo').disabled = !canUndo(glyph.id);
+  $('btn-redo').disabled = !canRedo(glyph.id);
+  $('btn-clear').disabled = data.strokes.length === 0;
+  $('lsb').value = data.lsb;
+  $('rsb').value = data.rsb;
+  $('lsb-value').textContent = data.lsb;
+  $('rsb-value').textContent = data.rsb;
 
   // Progress everywhere it is shown.
   const percent = Math.round((done / total) * 100);

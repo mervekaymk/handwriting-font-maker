@@ -7,6 +7,7 @@
 
 import { ASCENDER, CAP_HEIGHT, X_HEIGHT, BASELINE, DESCENDER } from './config.js';
 import { strokeOutline } from './stroke.js';
+import { glyphContours, contourToPath } from './outline.js';
 
 // The square area of font space the canvas shows.
 const VIEW_SIZE = 1200;            // width and height, in font units
@@ -26,6 +27,8 @@ export class GlyphCanvas {
     this.char = '';
     this.showGuides = true;
     this.showGhost = true;
+    // "Font view": show the cleaned outlines that go into the font instead of the raw strokes.
+    this.showFontView = false;
 
     // Finished strokes of the current glyph (set from main.js).
     this.strokes = [];
@@ -195,8 +198,12 @@ export class GlyphCanvas {
     if (this.showGuides) this.drawGuides();
 
     ctx.fillStyle = INK;
-    for (const stroke of this.strokes) {
-      fillOutline(ctx, strokeOutline(stroke), this.scale, VIEW_TOP);
+    if (this.showFontView && this.strokes.length > 0) {
+      drawContours(ctx, glyphContours(this.strokes), this.scale, VIEW_TOP, true);
+    } else {
+      for (const stroke of this.strokes) {
+        fillOutline(ctx, strokeOutline(stroke), this.scale, VIEW_TOP);
+      }
     }
     if (this.liveStroke) {
       fillOutline(ctx, strokeOutline(this.liveStroke, false), this.scale, VIEW_TOP);
@@ -269,7 +276,42 @@ function fillOutline(ctx, outline, scale, viewTop) {
   ctx.fill();
 }
 
-// Draw a glyph's strokes into a small canvas (used for the grid thumbnails).
+// Fill a glyph's finished contours (see outline.js). With `showPoints`, also draws
+// the outline edge and its points in rose, so you can check what goes into the font.
+function drawContours(ctx, rings, scale, viewTop, showPoints) {
+  const toX = (x) => x * scale;
+  const toY = (y) => (viewTop - y) * scale;
+
+  ctx.beginPath();
+  for (const ring of rings) {
+    for (const c of contourToPath(ring)) {
+      if (c.type === 'M') ctx.moveTo(toX(c.x), toY(c.y));
+      else if (c.type === 'L') ctx.lineTo(toX(c.x), toY(c.y));
+      else if (c.type === 'Q') ctx.quadraticCurveTo(toX(c.x1), toY(c.y1), toX(c.x), toY(c.y));
+      else if (c.type === 'Z') ctx.closePath();
+    }
+  }
+  // 'nonzero' is the same fill rule fonts use: holes go the other way round, so they stay empty.
+  ctx.fill('nonzero');
+
+  if (showPoints) {
+    const dpr = window.devicePixelRatio || 1;
+    ctx.save();
+    ctx.strokeStyle = ROSE;
+    ctx.lineWidth = 1.5 * dpr;
+    ctx.stroke();
+    ctx.fillStyle = ROSE;
+    for (const ring of rings) {
+      for (const [x, y] of ring) {
+        ctx.fillRect(toX(x) - 1.5 * dpr, toY(y) - 1.5 * dpr, 3 * dpr, 3 * dpr);
+      }
+    }
+    ctx.restore();
+  }
+}
+
+// Draw a glyph into a small canvas (used for the grid thumbnails).
+// Uses the finished contours, so the thumbnail shows exactly what goes into the font.
 export function drawThumbnail(thumbCanvas, strokes) {
   const dpr = window.devicePixelRatio || 1;
   const cssSize = thumbCanvas.clientWidth || 48;
@@ -280,7 +322,5 @@ export function drawThumbnail(thumbCanvas, strokes) {
   ctx.clearRect(0, 0, thumbCanvas.width, thumbCanvas.height);
   ctx.fillStyle = INK;
   const scale = thumbCanvas.width / VIEW_SIZE;
-  for (const stroke of strokes) {
-    fillOutline(ctx, strokeOutline(stroke), scale, VIEW_TOP);
-  }
+  drawContours(ctx, glyphContours(strokes), scale, VIEW_TOP, false);
 }

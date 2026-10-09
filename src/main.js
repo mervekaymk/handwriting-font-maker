@@ -130,6 +130,7 @@ function setupCanvasControls() {
 
   setupToggle($('btn-guides'), (on) => { glyphCanvas.showGuides = on; glyphCanvas.draw(); });
   setupToggle($('btn-ghost'), (on) => { glyphCanvas.showGhost = on; glyphCanvas.draw(); });
+  setupToggle($('btn-fontview'), (on) => { glyphCanvas.showFontView = on; glyphCanvas.draw(); });
 
   // Keyboard shortcuts, unless the user is typing in a field:
   //   left / right arrow = previous / next character

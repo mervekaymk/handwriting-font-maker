@@ -132,6 +132,7 @@ Missing glyphs must not break export. Export whatever is drawn, plus space and `
 - **Undo and Redo** per glyph.
 - **"Next" button under the canvas** to move on to the next character after finishing one (plus prev/next arrows above).
 - Help/install text is low priority; the short version from 3.7 is enough.
+- **Outlines (3.1 / 4):** no potrace. Each stroke's outline comes from perfect-freehand (same shape as on screen); all strokes of a glyph are merged with polygon-clipping (union), simplified, tiny specks (< 200 sq. units) dropped, rings oriented (outer CCW, holes CW) and turned into smooth quadratic curves with sharp corners kept. "Font view" toggle on the canvas shows the result.
 
 ## 11. Working notes for Claude Code
 - Build in this order, committing after each step: (1) page + glyph grid, (2) drawing canvas with guides and pointer input, (3) storage + project JSON, (4) tracing to outlines, (5) in-memory font build + live preview, (6) `.otf` export, (7) help text, README, license, Pages setup.

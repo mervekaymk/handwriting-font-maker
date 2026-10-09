@@ -101,6 +101,7 @@
           <div class="toolbar-group">
             <button type="button" class="btn btn-toggle" id="btn-guides" aria-pressed="true"><span class="icon" aria-hidden="true">grid_on</span>Guides</button>
             <button type="button" class="btn btn-toggle" id="btn-ghost" aria-pressed="true"><span class="icon" aria-hidden="true">visibility</span>Ghost</button>
+            <button type="button" class="btn btn-toggle" id="btn-fontview" aria-pressed="false" title="Show the cleaned outline that goes into the font"><span class="icon" aria-hidden="true">polyline</span>Font view</button>
           </div>
         </div>
 
@@ -224,6 +225,8 @@
     </div>
   </dialog>
 
+  <!-- polygon-clipping is a classic (non-module) script; it defines window.polygonClipping. -->
+  <script src="vendor/polygon-clipping-0.15.7.umd.min.js"></script>
   <script type="module" src="src/main.js"></script>
 </body>
 </html>

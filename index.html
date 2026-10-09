@@ -27,15 +27,17 @@
     </div>
     <p class="tagline">draw your handwriting, letter by letter, and download it as a real .otf font.</p>
     <div class="button-row">
-      <button type="button" class="btn" id="btn-import" disabled>
+      <button type="button" class="btn" id="btn-import">
         <span class="icon" aria-hidden="true">upload</span>Import project
       </button>
-      <button type="button" class="btn" id="btn-export-json" disabled>
+      <button type="button" class="btn" id="btn-export-json">
         <span class="icon" aria-hidden="true">data_object</span>Export project (.json)
       </button>
-      <button type="button" class="btn btn-danger" id="btn-reset" disabled>
+      <button type="button" class="btn btn-danger" id="btn-reset">
         <span class="icon" aria-hidden="true">warning</span>Reset all
       </button>
+      <!-- Hidden file picker, opened by the "Import project" button. -->
+      <input type="file" id="import-file" accept=".json,application/json" hidden>
     </div>
   </div>
 
@@ -160,7 +162,7 @@
           </label>
           <label class="slider">
             <span>Space width <output id="space-value">300</output></span>
-            <input type="range" id="space-width" min="100" max="600" step="10" value="300" disabled>
+            <input type="range" id="space-width" min="100" max="600" step="10" value="300">
           </label>
           <div class="warning" id="export-warning" hidden></div>
           <button type="button" class="btn btn-primary btn-wide" id="btn-download" disabled>
@@ -203,8 +205,24 @@
   <!-- ===== Bottom status bar ===== -->
   <footer class="status-bar">
     <span id="status-path">C:\FONTS\MY_HANDWRITING.OTF</span>
+    <span id="status-save">not saved yet</span>
     <span id="status-count">0 of 0</span>
   </footer>
+
+  <!-- Pop-up for confirmations and messages (see src/dialog.js). -->
+  <dialog id="dialog" class="window dialog" aria-labelledby="dialog-title">
+    <div class="titlebar">
+      <span class="wctl" aria-hidden="true"></span>
+      <h2 class="wtitle" id="dialog-title">MESSAGE</h2>
+    </div>
+    <div class="wbody">
+      <p id="dialog-message"></p>
+      <div class="dialog-buttons">
+        <button type="button" class="btn" id="dialog-cancel">Cancel</button>
+        <button type="button" class="btn btn-primary" id="dialog-ok">OK</button>
+      </div>
+    </div>
+  </dialog>
 
   <script type="module" src="src/main.js"></script>
 </body>

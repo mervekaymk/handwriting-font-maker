@@ -4,7 +4,7 @@
 // they update the state and then call every listener registered with onChange().
 
 import { GLYPHS } from './glyphs.js';
-import { DEFAULT_SIDE_BEARING } from './config.js';
+import { DEFAULT_SIDE_BEARING, DEFAULT_SPACE_WIDTH } from './config.js';
 
 export const state = {
   // Index into GLYPHS of the character currently open on the canvas.
@@ -14,6 +14,11 @@ export const state = {
   //   { strokes: [stroke, ...], lsb: 40, rsb: 40 }
   // (lsb / rsb = left / right side bearing = empty space beside the letter)
   glyphData: {},
+
+  // Font settings from the EXPORT.EXE window.
+  fontName: 'My Handwriting',
+  author: '',
+  spaceWidth: DEFAULT_SPACE_WIDTH,
 };
 
 // Undo / redo history per glyph. Only kept in memory, not saved.
@@ -120,6 +125,35 @@ export function canRedo(glyphId) {
 export function setBearing(glyphId, side, value) {
   getGlyphData(glyphId)[side] = value;
   notifyChange();
+}
+
+// key is 'fontName', 'author' or 'spaceWidth'.
+export function setFontSetting(key, value) {
+  state[key] = value;
+  notifyChange();
+}
+
+// Replace everything at once (after loading, importing or "Reset all").
+// `values` = { glyphData, fontName, author, spaceWidth }.
+// Undo history is cleared, because it belonged to the old drawings.
+export function replaceAll(values) {
+  state.glyphData = values.glyphData;
+  state.fontName = values.fontName;
+  state.author = values.author;
+  state.spaceWidth = values.spaceWidth;
+  for (const id of Object.keys(history)) {
+    delete history[id];
+  }
+  notifyChange();
+}
+
+export function emptyProjectValues() {
+  return {
+    glyphData: {},
+    fontName: 'My Handwriting',
+    author: '',
+    spaceWidth: DEFAULT_SPACE_WIDTH,
+  };
 }
 
 // ---------- Progress ----------

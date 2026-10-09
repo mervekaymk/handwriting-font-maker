@@ -4,9 +4,13 @@ import { GLYPHS, SECTIONS } from './glyphs.js';
 import {
   state, onChange, selectGlyph, selectedGlyph, isDone, countDone,
   getGlyphData, addStroke, clearGlyph, undo, redo, canUndo, canRedo, setBearing,
+  setFontSetting, replaceAll, emptyProjectValues,
 } from './state.js';
 import { GlyphCanvas, drawThumbnail } from './canvas.js';
 import { BRUSH_SIZES } from './stroke.js';
+import { stateToProject, readProject, safeFileName } from './project.js';
+import { saveProject, loadProject } from './storage.js';
+import { showDialog } from './dialog.js';
 
 // Short helper for document.getElementById.
 function $(id) {
@@ -220,15 +224,126 @@ function render() {
   $('status-count').textContent = `${done} of ${total} [${percent}%]`;
 }
 
-// Keep the file path in the status bar in sync with the font name.
-function setupFontNameEcho() {
-  const input = $('font-name');
-  const update = () => {
-    const safe = (input.value.trim() || 'my handwriting').replace(/[^A-Za-z0-9_-]+/g, '_');
-    $('status-path').textContent = `C:\\FONTS\\${safe.toUpperCase()}.OTF`;
-  };
-  input.addEventListener('input', update);
-  update();
+// Font name, author and space width inputs -> state.
+function setupFontSettings() {
+  $('font-name').addEventListener('input', (e) => setFontSetting('fontName', e.target.value));
+  $('font-author').addEventListener('input', (e) => setFontSetting('author', e.target.value));
+  $('space-width').addEventListener('input', (e) => setFontSetting('spaceWidth', Number(e.target.value)));
+}
+
+function renderFontSettings() {
+  // Only write into a text field if it differs, so the cursor doesn't jump while typing.
+  if ($('font-name').value !== state.fontName) $('font-name').value = state.fontName;
+  if ($('font-author').value !== state.author) $('font-author').value = state.author;
+  $('space-width').value = state.spaceWidth;
+  $('space-value').textContent = state.spaceWidth;
+  $('status-path').textContent = `C:\\FONTS\\${safeFileName(state.fontName).toUpperCase()}.OTF`;
+}
+
+// ---------- Project: auto-save, export, import, reset ----------
+
+const SAVE_DELAY_MS = 400;
+let saveTimer = null;
+let autoSaveEnabled = false;  // switched on after the saved project has been loaded
+
+// Save a moment after the last change, not on every single change.
+function scheduleSave() {
+  if (!autoSaveEnabled) return;
+  clearTimeout(saveTimer);
+  $('status-save').textContent = 'saving…';
+  saveTimer = setTimeout(async () => {
+    const saved = await saveProject(stateToProject(state));
+    $('status-save').textContent = saved ? 'saved' : 'not saved (browser storage blocked)';
+  }, SAVE_DELAY_MS);
+}
+
+function hasAnyDrawing() {
+  return countDone() > 0;
+}
+
+function exportProjectFile() {
+  const project = stateToProject(state);
+  const json = JSON.stringify(project);
+  downloadFile(`${safeFileName(state.fontName)}-project.json`, json, 'application/json');
+}
+
+// Make the browser download some data as a file.
+function downloadFile(fileName, data, mimeType) {
+  const blob = new Blob([data], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  // Give the browser a moment to start the download before freeing the memory.
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function importProjectFile(file) {
+  let project;
+  try {
+    project = JSON.parse(await file.text());
+  } catch (err) {
+    await showDialog({ title: 'IMPORT.EXE — ERROR', message: 'This file could not be read. It is not valid JSON.' });
+    return;
+  }
+
+  const result = readProject(project);
+  if (!result.ok) {
+    await showDialog({ title: 'IMPORT.EXE — ERROR', message: result.error });
+    return;
+  }
+
+  if (hasAnyDrawing()) {
+    const ok = await showDialog({
+      title: 'IMPORT.EXE',
+      message: 'Importing replaces everything you have drawn now.\nExport your current project first if you want to keep it.',
+      okLabel: 'Replace',
+      cancelLabel: 'Cancel',
+      danger: true,
+    });
+    if (!ok) return;
+  }
+  replaceAll(result.values);
+}
+
+function setupProjectControls() {
+  $('btn-export-json').addEventListener('click', exportProjectFile);
+
+  $('btn-import').addEventListener('click', () => $('import-file').click());
+  $('import-file').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    e.target.value = '';  // so picking the same file again still triggers "change"
+    if (file) await importProjectFile(file);
+  });
+
+  $('btn-reset').addEventListener('click', async () => {
+    const ok = await showDialog({
+      title: 'RESET.EXE',
+      message: 'Delete all drawings and settings?\nThis cannot be undone. Export your project first if you want to keep it.',
+      okLabel: 'Reset all',
+      cancelLabel: 'Cancel',
+      danger: true,
+    });
+    if (ok) replaceAll(emptyProjectValues());
+  });
+}
+
+// Load the auto-saved project (if any), then start auto-saving.
+async function restoreSavedProject() {
+  const saved = await loadProject();
+  if (saved) {
+    const result = readProject(saved);
+    if (result.ok) {
+      replaceAll(result.values);
+      $('status-save').textContent = 'restored';
+    } else {
+      console.warn('Saved project could not be restored:', result.error);
+    }
+  }
+  autoSaveEnabled = true;
 }
 
 // ---------- Start ----------
@@ -236,9 +351,14 @@ function setupFontNameEcho() {
 buildGlyphGrid();
 setupFilterTabs();
 setupCanvasControls();
-setupFontNameEcho();
+setupFontSettings();
+setupProjectControls();
 onChange(render);
+onChange(renderFontSettings);
+onChange(scheduleSave);
 render();
+renderFontSettings();
+restoreSavedProject();
 
 // The ghost and guide labels use web fonts; redraw once they have loaded.
 document.fonts.ready.then(() => glyphCanvas.draw());

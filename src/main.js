@@ -12,6 +12,7 @@ import { stateToProject, readProject, safeFileName } from './project.js';
 import { saveProject, loadProject } from './storage.js';
 import { showDialog } from './dialog.js';
 import { FontPreview } from './preview.js';
+import { buildFont } from './fontbuild.js';
 
 // Short helper for document.getElementById.
 function $(id) {
@@ -243,6 +244,60 @@ function renderFontSettings() {
   $('status-path').textContent = `C:\\FONTS\\${safeFileName(state.fontName).toUpperCase()}.OTF`;
 }
 
+// ---------- Font download ----------
+
+// Characters that are still empty, in grid order.
+function missingGlyphs() {
+  return GLYPHS.filter((g) => !isDone(g.id));
+}
+
+// "A B C D … (+12 more)" for showing a list of characters in a small space.
+function shortCharList(glyphs, max) {
+  const shown = glyphs.slice(0, max).map((g) => g.char).join(' ');
+  return glyphs.length > max ? `${shown} … (+${glyphs.length - max} more)` : shown;
+}
+
+function renderExportPanel() {
+  const missing = missingGlyphs();
+  const doneCount = GLYPHS.length - missing.length;
+  const warning = $('export-warning');
+
+  $('btn-download').disabled = doneCount === 0;
+  if (doneCount === 0) {
+    warning.hidden = false;
+    warning.textContent = 'Draw at least one character to download your font.';
+  } else if (missing.length > 0) {
+    warning.hidden = false;
+    warning.textContent = `${missing.length} still empty: ${shortCharList(missing, 20)}`;
+  } else {
+    warning.hidden = true;
+  }
+}
+
+async function downloadFont() {
+  const missing = missingGlyphs();
+  if (missing.length > 0) {
+    // Warn, but don't block: the font simply won't have these characters.
+    const ok = await showDialog({
+      title: 'EXPORT.EXE',
+      message: `${missing.length} characters are still empty and won't be in the font:
+
+${missing.map((g) => g.char).join(' ')}`,
+      okLabel: 'Download anyway',
+      cancelLabel: 'Keep drawing',
+    });
+    if (!ok) return;
+  }
+
+  try {
+    const { font } = buildFont(state);
+    downloadFile(`${safeFileName(state.fontName)}.otf`, font.toArrayBuffer(), 'font/otf');
+  } catch (err) {
+    console.error('Building the font failed', err);
+    await showDialog({ title: 'EXPORT.EXE — ERROR', message: 'Sorry, the font could not be built. Details are in the browser console.' });
+  }
+}
+
 // ---------- Project: auto-save, export, import, reset ----------
 
 const SAVE_DELAY_MS = 400;
@@ -313,6 +368,7 @@ async function importProjectFile(file) {
 }
 
 function setupProjectControls() {
+  $('btn-download').addEventListener('click', downloadFont);
   $('btn-export-json').addEventListener('click', exportProjectFile);
 
   $('btn-import').addEventListener('click', () => $('import-file').click());
@@ -358,10 +414,12 @@ setupFontSettings();
 setupProjectControls();
 onChange(render);
 onChange(renderFontSettings);
+onChange(renderExportPanel);
 onChange(scheduleSave);
 onChange(() => fontPreview.scheduleUpdate(state));
 render();
 renderFontSettings();
+renderExportPanel();
 restoreSavedProject();
 
 // The ghost and guide labels use web fonts; redraw once they have loaded.

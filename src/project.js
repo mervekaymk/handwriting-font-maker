@@ -138,8 +138,14 @@ function fail(message) {
   return { ok: false, error: message };
 }
 
-// Turn a font name into a safe file name: "My Font!" -> "My-Font".
+// Turn a font name into a safe file name: "Merve'nin Yazısı!" -> "Mervenin-Yazisi".
 export function safeFileName(name) {
-  const cleaned = name.trim().replace(/[^A-Za-z0-9 _-]+/g, '').replace(/\s+/g, '-');
+  const cleaned = name
+    .normalize('NFD')                 // split "ş" into "s" + accent mark ...
+    .replace(/[̀-ͯ]/g, '')  // ... and drop the accent marks
+    .replace(/ı/g, 'i')
+    .trim()
+    .replace(/[^A-Za-z0-9 _-]+/g, '')
+    .replace(/\s+/g, '-');
   return cleaned || 'my-handwriting';
 }
